@@ -2,6 +2,7 @@
 #include <string>
 using namespace std;
 
+//struct untuk menampung data pelanggan
 struct pelanggan {
     string nama,
     awal,
@@ -11,7 +12,7 @@ struct pelanggan {
 };
 pelanggan* awal = NULL, *baru, *bantu, *sebelum;
 
-
+//antrian untuk pemberangkatan kereta
 struct Queue {
     int front = 0;
     int rear = 0;
@@ -20,7 +21,6 @@ struct Queue {
     string tujuan[15];
     float harga[15];
 } Q;
-
 
 // check apakah queue full
 bool isFull() {
@@ -32,7 +32,8 @@ bool isEmpty() {
     return Q.rear == 0;
 }
 
-void printQueue() { //function untuk menampilkan queue
+//function untuk menampilkan queue
+void printQueue() { 
     if (isEmpty()) {
         cout << "Antrian Kosong\n\n";
     } else {
@@ -54,12 +55,11 @@ void enqueue() {
     } else {
         string nokereta, keberangkatan, tujuan;
         float harga;
-
         cout << "Masukkan No Kereta: ";
         cin >> nokereta;
-        cout << "Masukkan Keberangkatan: ";
+        cout << "Masukkan Stasiun Keberangkatan: ";
         cin >> keberangkatan;
-        cout << "Masukkan Tujuan: ";
+        cout << "Masukkan Stasiun Tujuan: ";
         cin >> tujuan;
         cout << "Masukkan Harga: ";
         cin >> harga;
@@ -68,7 +68,6 @@ void enqueue() {
         Q.keberangkatan[Q.rear] = keberangkatan;
         Q.tujuan[Q.rear] = tujuan;
         Q.harga[Q.rear] = harga;
-
         Q.rear++;
         cout << "Data Ditambahkan\n"; system("cls");
     }
@@ -80,8 +79,8 @@ void dequeue() {
         cout << "Queue Kosong" << endl;
     } else {
         cout << "Mengeluarkan Kereta dari Antrian | No Kereta: " << Q.nokereta[Q.front] 
-             << ", Keberangkatan: " << Q.keberangkatan[Q.front] 
-             << ", Tujuan: " << Q.tujuan[Q.front] 
+             << ", Stasiun Keberangkatan: " << Q.keberangkatan[Q.front] 
+             << ", Stasiun Tujuan: " << Q.tujuan[Q.front] 
              << ", Harga: " << Q.harga[Q.front] << " |\n";
 
         for (int i = Q.front; i < Q.rear - 1; i++) {
@@ -95,9 +94,10 @@ void dequeue() {
     }
 }
 
-pelanggan bisnis[10];
+pelanggan bisnis[10]; //array untuk menampung kelas bisnis
 int bns = 0;
 
+//function untuk menambah pelanggan kelas bisnis
 void TambahBisnis(){
     if(bns > 9){
         cout << "Bisnis udah penuh" ;
@@ -105,23 +105,25 @@ void TambahBisnis(){
     }
     cout << "Nama : "; cin >> bisnis[bns].nama;
     cout << "Stasiun Awal : "; cin >> bisnis[bns].awal;
-    cout << "Tujuan : "; cin >> bisnis[bns].tujuan;
+    cout << "Stasiun Tujuan : "; cin >> bisnis[bns].tujuan;
     cout << "Tgl Lahir (DD/MM/YY) : "; cin >> bisnis[bns].TglLahir; system("cls");
     bns += 1;
     return;
 }
 
+//function untuk menambah pelanggan kelas ekonomi
 void TambahEkonomi() {
     baru = new pelanggan; // Membuat simpul baru untuk menyimpan data
     cout << "Nama : "; cin >> baru->nama;
     cout << "Stasiun Awal : "; cin >> baru->awal;
-    cout << "Tujuan : "; cin >> baru->tujuan;
+    cout << "Stasiun Tujuan : "; cin >> baru->tujuan;
     cout << "Tgl Lahir (DD/MM/YY) : "; cin >> baru->TglLahir; system("cls");
     baru->next = awal; // Mengatur pointer next dari data baru untuk menunjuk ke data awal
     awal = baru; // Menjadikan data baru sebagai data awal
     system("cls");
 }
 
+//function untuk pelanggan melihat tiket yang dibeli
 void CariData() {
     string kls, cari;
     cout << "Masukkan Kelas (Bisnis/Ekonomi): "; 
@@ -136,10 +138,10 @@ void CariData() {
                     if (bisnis[i].awal == Q.keberangkatan[j] && bisnis[i].tujuan == Q.tujuan[j]) {
                         cout << "Nama: " << bisnis[i].nama << endl;
                         cout << "Stasiun Awal: " << bisnis[i].awal << endl;
-                        cout << "Tujuan: " << bisnis[i].tujuan << endl;
+                        cout << "Stasiun Tujuan: " << bisnis[i].tujuan << endl;
                         cout << "Tgl Lahir: " << bisnis[i].TglLahir << endl;
                         cout << "No Kereta: " << Q.nokereta[j] << endl;
-                        cout << "Harga: Rp." << Q.harga[j] << endl;
+                        cout << "Harga: Rp." << Q.harga[j] + (Q.harga[j] * 20/100 )<< endl;
                         cout << endl;
                     }
                 }
@@ -156,7 +158,7 @@ void CariData() {
                     if (bantu->awal == Q.keberangkatan[j] && bantu->tujuan == Q.tujuan[j]) {
                         cout << "Nama: " << bantu->nama << endl;
                         cout << "Stasiun Awal: " << bantu->awal << endl;
-                        cout << "Tujuan: " << bantu->tujuan << endl;
+                        cout << "Stasiun Tujuan: " << bantu->tujuan << endl;
                         cout << "Tgl Lahir: " << bantu->TglLahir << endl;
                         cout << "No Kereta: " << Q.nokereta[j] << endl;
                         cout << "Harga: Rp." << Q.harga[j] << endl;
@@ -172,6 +174,7 @@ void CariData() {
     }
 }
 
+//function untuk admin mengedit tiket pelanggan
 void EditData(){
     string kls,
     cari;
@@ -188,10 +191,10 @@ void EditData(){
                     
                     switch(ubah){
                         case 1:
-                        cout << "Masukan Keberangkatan Baru : "; cin >> bisnis[i].awal;system("cls");
+                        cout << "Stasiun Keberangkatan Baru : "; cin >> bisnis[i].awal;system("cls");
                         break;
                         case 2:
-                        cout << "Masukan Tujuan Baru : "; cin >> bisnis[i].tujuan;system("cls");
+                        cout << "Stasiun Tujuan Baru : "; cin >> bisnis[i].tujuan;system("cls");
                         break;
                     }
                 }
@@ -208,16 +211,17 @@ void EditData(){
                     
                     switch(ubah){
                         case 1:
-                        cout << "Masukan Keberangkatan Baru : "; cin >> bisnis->awal;system("cls");
+                        cout << "Stasiun Keberangkatan Baru : "; cin >> bisnis->awal;system("cls");
                         break;
                         case 2:
-                        cout << "Masukan Tujuan Baru : "; cin >> bisnis->tujuan;system("cls");
+                        cout << "Stasiun Tujuan Baru : "; cin >> bisnis->tujuan;system("cls");
                         break;
                     }
                 }
         }
 }
 
+//function untuk admin menghapus data
 void DeleteData(){
     string kls,
     cari;
@@ -250,10 +254,6 @@ void DeleteData(){
                         sebelum->next = bantu->next; // Jika data yang akan dihapus bukan data awal, maka pointer next dari data sebelumnya diatur ke data setelahnya
                     }
                     delete bantu; // Menghapus data yang telah ditemukan
-                    cout << "Data berhasi dihapus yeay";
-                    char blk;
-                    cout << "\nKetik 1 untuk kembali ke menu  "; cin >> blk; system("cls");
-                    return;
                 }
                 sebelum = bantu;
                 bantu = bantu->next;
@@ -262,6 +262,7 @@ void DeleteData(){
     }
 }
 
+//function untuk admin melihat tiket yang terjual
 void TampilData() {
     cout << "Kelas Bisnis : " << endl;
     for(int i =0; i <=10; i++){
@@ -278,13 +279,14 @@ void TampilData() {
     while (bantu != NULL) {
         cout << "Nama : " << bantu->nama ;
         cout << ", Stasiun Awal : " << baru->awal ;
-        cout << ", Tujuan : " << baru->tujuan ;
+        cout << ", Stasiun Tujuan : " << baru->tujuan ;
         cout << ", Tgl Lahir : " << bantu->TglLahir << endl;
         bantu = bantu->next; // Pindah ke data berikutnya dalam linked list
         cout << endl;
     }
 }
 
+//function untuk menu admin
 void MenuAdmin(){
     int pil;
     char ubah;
@@ -328,9 +330,10 @@ void MenuAdmin(){
     }while(ulg == true);
 }
 
+//function untuk login sebagai admin
 void LoginAdmin(){
-    string Mimin[5]{"Kevin","Icshan","Faiz","Nania","Asfa"};
-    string sandi[5]{"23025","23001","23002","23003","23004"};
+    string Mimin[5]{"Kevin","Ichsan","Faiz","Nania","Asfa"};
+    string sandi[5]{"23025","23097","23002","23003","23004"};
     string staff;
     string password;
     cout << "Login : "; cin >> staff;
@@ -344,6 +347,7 @@ void LoginAdmin(){
     }
 }
 
+//function untuk menu pelanggan
 void MenuPelanggan(){
     int pil;
     string kls;
@@ -384,7 +388,7 @@ int main(){
     int pil;
     bool ulg = true;
     do {
-        cout << " Selamat Datang " << endl;
+        cout << " Selamat Datang di Stasiun informAtika" << endl;
         cout << "1. Admin" << endl;
         cout << "2. Pelanggan" << endl;
         cout << "3. Keluar" << endl;
